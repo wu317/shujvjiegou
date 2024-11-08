@@ -18,6 +18,9 @@ typedef struct {
     int last;
 }sqlist,*sqlink;
 
-
-
+sqlink list_create(void);
+int list_clear(sqlist L);
+int list_length(sqlist L);
+int list_locate(sqlist L,data_t value);
+int insert(sqlist L,data_t value,int pos);
 
