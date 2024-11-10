@@ -15,7 +15,7 @@ sqlink list_create(void)
     if(L == NULL)
     {
         printf("list malloc failed\n");
-        return L;
+        return NULL;
     }
     //initialize
     memset(L,0,sizeof(sqlist));
@@ -30,6 +30,7 @@ int list_clear(sqlink L)
 {
     if(L == NULL)
         return -1;
+
     memset(L,0,sizeof(sqlist));
     L -> last = -1;
     return 0;
@@ -56,14 +57,60 @@ int list_length(sqlink L)
     if(L == NULL)
         return -1;
     else
-        return (L->last +1);
+        return (L->last+1);
 }
 int list_locate(sqlink L,data_t value)
 {
     return 0;
 }
-int insert(sqlink L,data_t value,int pos)
+/*
+*insert: 用于在pos位置插入value(insert: insert value at pos)
+*para L: 线性表(list)
+*para value: 要插入的元素(insert element)
+*para pos: 插入的位置(insert position)
+*@ret 0-succeed -1-failed
+*/
+int list_insert(sqlink L,data_t value,int pos)
 {
+    int i;
+    //full
+    if(L->last == N-1)
+    {
+        printf("list is full\n");
+        return -1;
+    }
+    //check pos ,pos属于[0,last+1]
+    if(pos < 0 || pos > (L->last+1))
+    {
+        printf("pos is invalisd\n");
+        return -1;
+    }
+    //move
+    for(i=L->last;i>=pos;i--)
+    {
+        L->data[i+1] = L->data[i];
+    }
+    //update
+    L->data[pos] = value;
+    L->last++;
     return 0;
 }
 
+int list_show(sqlink L)
+{
+    int i;
+    if(L == NULL)
+        return -1;
+    if(L->last == -1)
+    {
+        printf("list is empty\n");
+        return -1;
+    }
+
+    for(i = 0;i<=L->last;i++)
+    {
+        printf("%d ",L->data[i]);
+    }
+    puts("");
+    return 0;
+}
