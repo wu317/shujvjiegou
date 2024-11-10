@@ -20,6 +20,7 @@ typedef struct {
 
 sqlink list_create(void);
 int list_clear(sqlink L);
+int list_delete(sqlink L);
 int list_empty(sqlink L);
 int list_length(sqlink L);
 int list_locate(sqlink L,data_t value);

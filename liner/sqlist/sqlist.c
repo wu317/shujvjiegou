@@ -35,6 +35,14 @@ int list_clear(sqlink L)
     L -> last = -1;
     return 0;
 }
+int list_delete(sqlink L)
+{
+    if(L == NULL)
+        return -1;
+    free(L);
+    L = NULL;
+    return 0;
+}
 /*
 *list_empty: 用于判断是否为空的线性表(list_empty: is list empty ??)
 *para L: 线性表(list)
@@ -95,7 +103,12 @@ int list_insert(sqlink L,data_t value,int pos)
     L->last++;
     return 0;
 }
-
+/*
+*delete: 用于删除pos位置的元素(delete: delete element at pos)
+*para L: 线性表(list)
+*para pos: 删除的位置(delete position)
+*@ret 0-succeed -1-failed
+*/
 int list_show(sqlink L)
 {
     int i;
