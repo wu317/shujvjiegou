@@ -24,6 +24,8 @@ sqlink list_create(void)
     return L;
 }
 /*
+*list_clear: 用于清空线性表(list_clear: clear a list)
+*para L: 线性表(list)
 *@ret 0-succeed -1-failed
 */
 int list_clear(sqlink L)
@@ -35,7 +37,12 @@ int list_clear(sqlink L)
     L -> last = -1;
     return 0;
 }
-int list_delete(sqlink L)
+/*
+*list_free: 用于销毁线性表(list_free: free a list)
+*para L: 线性表(list)
+*@ret 0-succeed -1-failed
+*/
+int list_free(sqlink L)
 {
     if(L == NULL)
         return -1;
@@ -67,9 +74,22 @@ int list_length(sqlink L)
     else
         return (L->last+1);
 }
+/*
+*list_locate: 用于查找value在list中的位置(list_locate: find value in list)
+*list_locate: 用于查找线性表中元素第一次出现的位置(list_locate: find the first position of the element in list)
+*para L: 线性表(list)
+*para value: 要查找的元素(find element)
+*@ret -1-failed pos
+*/
 int list_locate(sqlink L,data_t value)
 {
-    return 0;
+    int i;
+    for(i=0;i<=L->last;i++)
+    {
+        if(value == L->data[i])
+            return i;
+    }
+    return -1;
 }
 /*
 *insert: 用于在pos位置插入value(insert: insert value at pos)
@@ -125,5 +145,84 @@ int list_show(sqlink L)
         printf("%d ",L->data[i]);
     }
     puts("");
+    return 0;
+}
+/*
+*delete: 用于删除pos位置的元素(delete: delete element at pos)
+*para L: 线性表(list)
+*para pos: 删除的位置(delete position)
+*@ret 0-succeed -1-failed
+*/
+int list_delete(sqlink L,int pos)
+{
+    int i;
+    if(L->last == -1)
+    {
+        printf("list is empty\n");
+        return -1;
+    }
+    //pos∈[0,last]
+    if(pos<0 || pos>L->last)
+    {
+        printf("delete pos is invalide\n");
+        return -1;
+    }
+    //move  [pos+1,last]需要向前移动
+    for(i=pos+1;i<=L->last;i++)
+    {
+        L->data[i-1] = L->data[i];
+    }
+    //update
+    L->last--;
+    return 0;
+}
+/*
+*list_merge: 用于合并两个线性表(list_merge: merge two list)
+*para L1: 线性表1(list1)
+*para L2: 线性表2(list2)
+*@ret 0-succeed -1-failed
+*/
+int list_merge(sqlink L1,sqlink L2)
+{
+    int i = 0;
+    int ret;
+    while(i <= L2->last)
+    {
+        ret = list_locate(L1,L2->data[i]); 
+        if(ret == -1)
+        {
+            if(list_insert(L1,L2->data[i],L1->last+1) == -1)
+            {
+                printf("list1 haven't spase\n");
+                return -1;
+            }
+        }
+        i++;
+    }
+    return 0;
+}
+int list_purge(sqlink L)
+{
+    int i;
+    int j;
+    if(L->last == 0)
+        return 0;
+    i = 1;
+    while(i <= L->last)
+    {
+        j = i-1;
+        while(j>=0)
+        {
+            if(L->data[i] == L->data[j])
+            {
+                list_delete(L,i);
+                break;
+            }
+            else
+                j--;    
+        }
+        if(j < 0)
+            i++;
+    }
     return 0;
 }
