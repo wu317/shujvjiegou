@@ -46,6 +46,7 @@ int list_tali_insert(linklist H,data_t value)
     q->next = p;
     return 0;
 }
+
 linklist list_get(linklist H,int pos)
 {
     int i = 0;
@@ -57,6 +58,11 @@ linklist list_get(linklist H,int pos)
     }
     if(pos == -1)
         return H;
+    if(pos < -1)
+    {
+        printf("pos is invalid\n");
+        return NULL;
+    }
     p = H;
     i = -1;
     while(i<pos)
@@ -101,6 +107,35 @@ int list_insert(linklist H,data_t value,int pos)
     p->next = q;
     return 0;   
 }
+
+int list_delete(linklist H,int pos)
+{
+    linklist p;
+    linklist q;
+    if(H == NULL)
+    {
+        printf("H is NULL\n");
+        return -1;
+    } 
+    //找到结点的前一个结点
+    p = list_get(H,pos-1);
+    if(p == NULL)
+        return -1;
+    if(p->next == NULL)
+    {
+        printf("delete pos is invalid\n");
+        return -1;
+    }
+    //修改结点
+    q = p->next;
+    p->next = q->next; 
+    //释放要删除的节点
+    printf("free:%d\n",q->data);
+    free(q);
+    q = NULL;
+    return 0;
+}
+
 int list_show(linklist H)
 {
     linklist p;
@@ -117,4 +152,23 @@ int list_show(linklist H)
     }
     puts(" ");
     return 0;
+}
+
+linklist list_free(linklist H)
+{
+    linklist p;
+    if(H == NULL)
+        return NULL;
+    p = H;
+    printf("free:");
+    while(H != NULL)
+    {
+        p = H;
+        printf("%d ",p->data);
+        H = H->next;
+        free(p);
+    }
+    puts(" ");
+    H = NULL;//需要将该释放的指针传到main函数中去，该函数中的H为形式参数，只释放它无效，所以该函数需要一个返回值，返回该释放的指针，或者创建一个二级指针作为参数，进行释放
+    return H;
 }
