@@ -172,3 +172,65 @@ linklist list_free(linklist H)
     H = NULL;//需要将该释放的指针传到main函数中去，该函数中的H为形式参数，只释放它无效，所以该函数需要一个返回值，返回该释放的指针，或者创建一个二级指针作为参数，进行释放
     return H;
 }
+
+int list_reverse(linklist H)
+{
+    linklist p;
+    linklist q;
+    if(H == NULL)
+    {
+        printf("H is NULL\n");
+        return -1;
+    }
+    if(H->next == NULL)
+    {
+        printf("H is empty\n");
+        return 0;
+    }
+    if(H->next->next == NULL)
+    {
+        printf("H only has one node\n");
+        return 0;
+    }
+    p = H->next->next;
+    H->next->next = NULL;
+    while (p != NULL)
+    {
+        q = p;
+        p = p->next;
+        q->next = H->next;
+        H->next = q;
+    }
+    return 0;
+}
+linklist list_adjmax(linklist H)
+{
+    linklist p,q,r;
+    data_t sum = 0;
+    if(H == NULL)
+    {
+        printf("H is NULL\n");
+        return NULL;
+    }
+    if(H->next ==NULL || H->next->next == NULL || H->next->next->next == NULL)
+    {
+        printf("H is empty or only has one or two node\n");
+        return H;
+    }
+    q = H->next;
+    p = q->next;
+    r = q;
+    sum = q->data + p->data;
+    while(p->next != NULL)
+    {
+        q = q->next;
+        p = p->next;
+        
+        if((q->data + p->data) > sum)
+        {
+            sum = q->data + p->data;
+            r = q;
+        }
+    }
+    return r;
+}
