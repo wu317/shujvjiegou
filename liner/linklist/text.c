@@ -8,29 +8,33 @@ int test_reverse(void);
 int test_adjmax(void);
 int main()
 {
-    int value;
-    linklist H;
-    linklist p;
-    H = list_create();
-    if(H == NULL)
+    linklist H1,H2;
+    int a[] = {1,4,6,8,9};
+    int b[] = {2,6,7};
+    int i;
+    
+    H1 = list_create();
+    if(H1 == NULL)
         return -1;
-    printf("input:");
-    while(1)
-    {
-        scanf("%d",&value);
-        if(value == -1)
-            break;
-        list_tali_insert(H,value);
-        printf("input:");
-    }
-    list_show(H);
-    p = list_adjmax(H);
-    if(p != NULL && p != H)
-    {
-        printf("max:%d\n",p->data+p->next->data);
-    }
+    H2 = list_create();
+    if(H2 == NULL)
+        return -1;
 
-    H = list_free(H);
+    for(i = 0;i<sizeof(a)/sizeof(a[0]);i++)
+        list_tali_insert(H1,a[i]);
+
+    for(i = 0;i<sizeof(b)/sizeof(b[0]);i++)
+        list_tali_insert(H2,b[i]);
+
+    list_show(H1);
+    list_show(H2);
+
+    list_merge(H1,H2);
+    list_show(H1);
+
+    list_free(H1);
+    list_free(H2);
+
     return 0;
 }
 

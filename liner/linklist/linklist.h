@@ -15,3 +15,4 @@ int list_show(linklist H);//链表的遍历
 linklist list_free(linklist H);//释放链表
 int list_reverse(linklist H);//链表反转
 linklist list_adjmax(linklist H);//链表相邻元素最大值
+int list_merge(linklist H1,linklist H2);
